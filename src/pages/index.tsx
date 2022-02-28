@@ -54,11 +54,19 @@ type State = {
 
 function reducer(state: State, action: Action) {
   const { letter, index } = action.payload;
+  const currentWord = state.words[index];
+  const words = [...state.words];
 
   switch (action.type) {
     case "ADD_LETTER":
-      state.words[index].text = state.words[index].text + letter;
-      return { ...state };
+      const newWord: Word = {
+        text: currentWord.text + letter,
+        color: currentWord.color,
+      };
+
+      words.splice(index, 1, newWord);
+
+      return { ...state, words };
 
     case "REMOVE_LETTER":
       state.words[index].text = state.words[index].text.slice(0, -1);
@@ -119,9 +127,10 @@ const Home: NextPage = () => {
     const keydetect = (event: KeyboardEvent) => {
       const key = event.key;
 
-      // if (BACKSPACE === key) {
-      //   return;
-      // }
+      if (BACKSPACE === key) {
+        dispatch({ payload: { index: 0, letter: key }, type: "REMOVE_LETTER" });
+        return;
+      }
 
       // if (ENTER === key && table[currentLine].length === 5) {
       //   const colors = checkWord(table[currentLine]);
@@ -131,6 +140,7 @@ const Home: NextPage = () => {
 
       if (alphabet.includes(key.toLocaleLowerCase())) {
         dispatch({ payload: { index: 0, letter: key }, type: "ADD_LETTER" });
+        return;
       }
     };
     window.addEventListener("keydown", keydetect);
