@@ -6,7 +6,7 @@
  - [x] Add letter in word
  - [x] handle `Backspace` key
    - [x] Remove the letter
-   - [ ] Update the table
+   - [x] Update the table
  - [ ] handle `Enter` key 
    - [ ] Check if wons 
    - [ ] Color witch letter with valid colors:
