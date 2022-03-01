@@ -92,6 +92,7 @@ const initialWordsState: Word[] = [
 ];
 
 export default function Wordle() {
+  const [index, setIndex] = React.useState<number>(0);
   const [state, dispatch] = React.useReducer(reducer, {
     words: initialWordsState,
     win: false,
@@ -133,24 +134,22 @@ export default function Wordle() {
       const key = event.key;
 
       if (BACKSPACE === key) {
-        dispatch({ payload: { index: 0, letter: key }, type: "REMOVE_LETTER" });
+        dispatch({ payload: { index, letter: key }, type: "REMOVE_LETTER" });
         return;
       }
 
-      // if (ENTER === key && table[currentLine].length === 5) {
-      //   const colors = checkWord(table[currentLine]);
-      //   setColors(colors);
-      //   setCurrentLine((state) => state + 1);
-      // }
+      if (ENTER === key && state.words[index].text.length === 5 && index < 4) {
+        setIndex((state) => state + 1);
+      }
 
       if (alphabet.includes(key.toLocaleLowerCase())) {
-        dispatch({ payload: { index: 0, letter: key }, type: "ADD_LETTER" });
+        dispatch({ payload: { index, letter: key }, type: "ADD_LETTER" });
         return;
       }
     };
     window.addEventListener("keydown", keydetect);
     return () => window.removeEventListener("keydown", keydetect);
-  }, []);
+  }, [index, state]);
 
   return (
     <div className={styles.container}>
