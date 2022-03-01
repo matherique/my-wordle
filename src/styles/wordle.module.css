@@ -1,0 +1,19 @@
+.container {
+  padding: 0 2rem;
+}
+
+.letter {
+  border: 2px solid black;
+  font-size: 50px;
+  position: relative;
+  padding: 20px 30px;
+  width: 100px;
+  height: 100px;
+  align-self: center;
+}
+
+.word {
+  display: flex;
+  flex-direction: row;
+  place-items: center;
+}
