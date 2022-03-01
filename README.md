@@ -7,7 +7,7 @@
  - [x] handle `Backspace` key
    - [x] Remove the letter
    - [x] Update the table
- - [ ] handle `Enter` key 
+ - [x] handle `Enter` key 
    - [ ] Check if wons 
    - [ ] Color witch letter with valid colors:
      - Green = Corret possition and word
