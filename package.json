@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "npx jest",
+    "test:watch": "npx jest --watchAll",
     "lint": "next lint"
   },
   "dependencies": {
