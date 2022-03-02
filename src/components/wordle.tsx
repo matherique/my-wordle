@@ -91,7 +91,11 @@ const initialWordsState: Word[] = [
   { color: [NOT, NOT, NOT, NOT, NOT, NOT], text: "" },
 ];
 
-export default function Wordle() {
+type WordleProps = {
+  answer: string;
+};
+
+export default function Wordle({ answer }: WordleProps) {
   const [index, setIndex] = React.useState<number>(0);
   const [state, dispatch] = React.useReducer(reducer, {
     words: initialWordsState,
