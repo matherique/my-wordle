@@ -41,7 +41,7 @@ function WordleItem({ word, index }: WordleItemProps) {
 }
 
 type Action = {
-  type: "REMOVE_LETTER" | "ADD_LETTER" | "SEND";
+  type: "REMOVE_LETTER" | "ADD_LETTER" | "CHECK_WORD";
   payload: {
     letter: string;
     index: number;
@@ -77,6 +77,31 @@ function reducer(state: State, action: Action) {
 
       return { ...state, words };
 
+    case "CHECK_WORD":
+      const color: string[] = [];
+      for (const w of Array.from(currentWord.text)) {
+        if (
+          RESPONSE.includes(w) &&
+          RESPONSE.indexOf(w) === currentWord.text.indexOf(w)
+        ) {
+          color.push(G);
+          continue;
+        }
+
+        if (RESPONSE.includes(w)) {
+          color.push(Y);
+          continue;
+        }
+
+        color.push(NOT);
+      }
+
+      words.splice(index, 1, {
+        text: currentWord.text,
+        color,
+      });
+
+      return { ...state, words };
     default:
       return state;
   }
@@ -135,19 +160,25 @@ export default function Wordle({ answer }: WordleProps) {
 
   React.useEffect(() => {
     const keydetect = (event: KeyboardEvent) => {
-      const key = event.key;
+      const letter = event.key;
 
-      if (BACKSPACE === key) {
-        dispatch({ payload: { index, letter: key }, type: "REMOVE_LETTER" });
+      if (BACKSPACE === letter) {
+        dispatch({ payload: { index, letter }, type: "REMOVE_LETTER" });
         return;
       }
 
-      if (ENTER === key && state.words[index].text.length === 5 && index < 4) {
+      if (
+        ENTER === letter &&
+        state.words[index].text.length === 5 &&
+        index < 4
+      ) {
         setIndex((state) => state + 1);
+        dispatch({ payload: { index, letter }, type: "CHECK_WORD" });
+        return;
       }
 
-      if (alphabet.includes(key.toLocaleLowerCase())) {
-        dispatch({ payload: { index, letter: key }, type: "ADD_LETTER" });
+      if (alphabet.includes(letter.toLocaleLowerCase())) {
+        dispatch({ payload: { index, letter }, type: "ADD_LETTER" });
         return;
       }
     };

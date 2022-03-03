@@ -66,4 +66,17 @@ describe("Home", () => {
 
     expect(queryByTestId("word_1_0")).toHaveTextContent("x");
   });
+
+  it("should paint yellow letters that are in the wrong position but are in the word", () => {
+    const { queryByTestId, debug } = render(<Wordle answer={answer} />);
+
+    fireEvent.keyDown(window, { key: "a", code: "KeyA" });
+    fireEvent.keyDown(window, { key: "o", code: "KeyO" });
+    fireEvent.keyDown(window, { key: "f", code: "KeyF" });
+    fireEvent.keyDown(window, { key: "a", code: "KeyA" });
+    fireEvent.keyDown(window, { key: "r", code: "KeyR" });
+    fireEvent.keyDown(window, { key: "Enter", code: "Enter" });
+
+    expect(queryByTestId("word_0_0")).toHaveStyle("color: yellow;");
+  });
 });
