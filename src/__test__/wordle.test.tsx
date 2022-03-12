@@ -1,5 +1,9 @@
 import { fireEvent, render } from "@testing-library/react";
-import Wordle from "../components/wordle";
+import Wordle from "@/components/wordle";
+
+const YELLOW = `color: yellow;`;
+const GREEN = `color: green;`;
+const GRAY = `color: gray;`;
 
 describe("Home", () => {
   const answer = "JOGAR";

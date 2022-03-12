@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/wordle.module.css";
+import styles from "@/styles/wordle.module.css";
 
 // create a alphabet string
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
