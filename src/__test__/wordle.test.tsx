@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Wordle from "@/components/wordle";
 import {
   A,
@@ -12,7 +12,6 @@ import {
   GREEN,
   Backspace,
   Enter,
-  M,
   E,
   T,
   N,
