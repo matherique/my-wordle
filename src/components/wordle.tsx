@@ -1,20 +1,8 @@
 import React from "react";
 import styles from "@/styles/wordle.module.css";
-
-// create a alphabet string
-const alphabet = "abcdefghijklmnopqrstuvwxyz";
-const BACKSPACE = "Backspace";
-const ENTER = "Enter";
-const G = "green";
-const Y = "yellow";
-const NOT = "gray";
-
-const RESPONSE = "jogar";
-
-type Word = {
-  color: string[];
-  text: string;
-};
+import { NOT, BACKSPACE, ENTER, alphabet } from "@/constants";
+import { initialWordsState, wordleReducer } from "@/store/wordle";
+import { Word } from "src/types";
 
 type WordleItemProps = {
   word: Word;
@@ -40,123 +28,17 @@ function WordleItem({ word, index }: WordleItemProps) {
   );
 }
 
-type Action = {
-  type: "REMOVE_LETTER" | "ADD_LETTER" | "CHECK_WORD";
-  payload: {
-    letter: string;
-    index: number;
-  };
-};
-
-type State = {
-  words: Word[];
-  win: boolean;
-};
-
-function reducer(state: State, action: Action) {
-  const { letter, index } = action.payload;
-  const currentWord = state.words[index];
-  const words = [...state.words];
-
-  switch (action.type) {
-    case "ADD_LETTER":
-      if (currentWord.text.length === 5) return { ...state };
-
-      words.splice(index, 1, {
-        text: currentWord.text + letter,
-        color: currentWord.color,
-      });
-
-      return { ...state, words };
-
-    case "REMOVE_LETTER":
-      words.splice(index, 1, {
-        text: currentWord.text.slice(0, -1),
-        color: currentWord.color,
-      });
-
-      return { ...state, words };
-
-    case "CHECK_WORD":
-      const color: string[] = [];
-      for (const w of Array.from(currentWord.text)) {
-        if (
-          RESPONSE.includes(w) &&
-          RESPONSE.indexOf(w) === currentWord.text.indexOf(w)
-        ) {
-          color.push(G);
-          continue;
-        }
-
-        if (RESPONSE.includes(w)) {
-          color.push(Y);
-          continue;
-        }
-
-        color.push(NOT);
-      }
-
-      words.splice(index, 1, {
-        text: currentWord.text,
-        color,
-      });
-
-      return { ...state, words };
-    default:
-      return state;
-  }
-}
-
-const initialWordsState: Word[] = [
-  { color: [NOT, NOT, NOT, NOT, NOT, NOT], text: "" },
-  { color: [NOT, NOT, NOT, NOT, NOT, NOT], text: "" },
-  { color: [NOT, NOT, NOT, NOT, NOT, NOT], text: "" },
-  { color: [NOT, NOT, NOT, NOT, NOT, NOT], text: "" },
-  { color: [NOT, NOT, NOT, NOT, NOT, NOT], text: "" },
-  { color: [NOT, NOT, NOT, NOT, NOT, NOT], text: "" },
-];
-
 type WordleProps = {
   answer: string;
 };
 
 export default function Wordle({ answer }: WordleProps) {
   const [index, setIndex] = React.useState<number>(0);
-  const [state, dispatch] = React.useReducer(reducer, {
+  const [state, dispatch] = React.useReducer(wordleReducer, {
+    response: answer,
     words: initialWordsState,
     win: false,
   });
-  /*
-  function removeWord() {
-    setTable((state) => {
-      if (state[currentLine].length === 0) return state;
-      state[currentLine] = state[currentLine].slice(0, -1);
-
-      return state;
-    });
-  }
-  */
-
-  /*
-  function checkWord(word: string): string[] {
-    const colors: string[] = [];
-    for (const w of Array.from(word)) {
-      if (RESPONSE.includes(w) && RESPONSE.indexOf(w) === word.indexOf(w)) {
-        colors.push(G);
-        continue;
-      }
-
-      if (RESPONSE.includes(w)) {
-        colors.push(Y);
-        continue;
-      }
-
-      colors.push(NOT);
-    }
-
-    return colors;
-  }
-  */
 
   React.useEffect(() => {
     const keydetect = (event: KeyboardEvent) => {

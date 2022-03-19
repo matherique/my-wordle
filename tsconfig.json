@@ -20,15 +20,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/components/*": [
-        "src/components/*"
+      "@/*": [
+        "src/*"
       ],
-      "@/pages/*": [
-        "src/pages/*"
-      ],
-      "@/styles/*": [
-        "src/styles/*"
-      ]
     }
   },
   "include": [

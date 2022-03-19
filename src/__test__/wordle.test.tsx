@@ -16,6 +16,13 @@ import {
   T,
   N,
   S,
+  B,
+  C,
+  D,
+  G,
+  H,
+  I,
+  J,
 } from "./utils";
 
 describe("Home", () => {
@@ -61,11 +68,36 @@ describe("Home", () => {
     expect(queryByTestId("word_1_0")).toHaveTextContent("x");
   });
 
-  it("painting yellow", () => {
-    const { queryByTestId } = render(<Wordle answer="jogar" />);
-
-    type([A, N, T, E, S, Enter]);
+  it("all gray", () => {
+    const { queryByTestId } = render(<Wordle answer="abcde" />);
+    type([F, G, H, I, J, Enter]);
 
     expect(queryByTestId("word_0_0")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_1")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_2")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_3")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_4")).toHaveStyle(YELLOW);
+  });
+
+  it("all yellow", () => {
+    const { queryByTestId } = render(<Wordle answer="abcde" />);
+    type([E, A, B, C, D, Enter]);
+
+    expect(queryByTestId("word_0_0")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_1")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_2")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_3")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_4")).toHaveStyle(YELLOW);
+  });
+
+  it("all green", () => {
+    const { queryByTestId } = render(<Wordle answer="abcde" />);
+    type([A, B, C, D, E, Enter]);
+
+    expect(queryByTestId("word_0_0")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_1")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_2")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_3")).toHaveStyle(YELLOW);
+    expect(queryByTestId("word_0_4")).toHaveStyle(YELLOW);
   });
 });

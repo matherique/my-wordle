@@ -13,6 +13,8 @@ const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you soon)
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "^@/(.*)/(.*)$": "<rootDir>/src/$1/$2",
     "^@/components/(.*)$": "<rootDir>/src/components/$1",
 
     "^@/pages/(.*)$": "<rootDir>/src/pages/$1",
